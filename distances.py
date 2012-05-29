@@ -16,8 +16,14 @@ def main():
                        origin[:-1] + '&destinations=' + destination[:-1] + 
                        '&sensor=false'))
 
-            distance = disttime['rows'][0]['elements'][0]['distance']['value']
-            time = disttime['rows'][0]['elements'][0]['duration']['value']
+            status = disttime['rows'][0]['elements'][0]['status']
+            
+            if status == 'ZERO_RESULTS':
+                distance = time = 'No Route'
+            elif status == 'OK':
+                distance = disttime['rows'][0]['elements'][0]['distance']['value']
+                time = disttime['rows'][0]['elements'][0]['duration']['value']
+            else: print 'strange'
 
             coords_distance_time.write('{},{},{},{}\n'.format(
             origin[:-1], destination[:-1], distance, time))
